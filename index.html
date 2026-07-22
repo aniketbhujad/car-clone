@@ -4,13 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mercedes-AMG G-Class | Luxury SUV | Mercedes-Benz India</title>
+    <title>Mercedes-AMG G-Class</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
+    <div class="loader-overlay" id="loaderOverlay" style="display: none;">
+        <div class="spinner-border text-danger" role="status" style="width: 2.2rem; height: 2.2rem;"></div>
+        <div class="loading-text" id="loadingText">Loading 360° Studio (0%)</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+    </div>
 
     <header class="global-header">
         <div class="navbar">
@@ -24,13 +31,13 @@
             </div>
 
             <div class="header-right">
-                <button class="header-icon-link" aria-label="Wishlist">
+                <!-- <button class="header-icon-link" aria-label="Wishlist">
                     <i class="bi bi-heart"></i>
-                </button>
+                </button> -->
                 <button class="header-icon-link" aria-label="Search">
                     <i class="bi bi-search"></i>
                 </button>
-                <button class="header-icon-link" aria-label="Account Login">
+                <button class="header-icon-link" aria-label="Account Login" data-bs-toggle="modal" data-bs-target="#authModal">
                     <i class="bi bi-person"></i>
                 </button>
             </div>
@@ -47,6 +54,7 @@
         <ul class="menu-nav-links">
             <li><a href="index.html" class="active"><i class="bi bi-chevron-right me-2"></i>Mercedes-AMG G-Class</a>
             </li>
+            <li><a href="configure.html"><i class="bi bi-chevron-right me-2"></i>Configure Your Car</a></li>
             <li><a href="test-drive.html"><i class="bi bi-chevron-right me-2"></i>Book a Test Drive</a></li>
             <li><a href="finance.html"><i class="bi bi-chevron-right me-2"></i>Financial Services</a></li>
         </ul>
@@ -57,10 +65,17 @@
             <div class="sub-header-title">Mercedes-AMG G-Class</div>
             <div class="sub-header-actions">
                 <a href="#" class="location-picker" data-bs-toggle="offcanvas" data-bs-target="#locationOffcanvas">
-                    <i class="bi bi-geo-alt-fill"></i> Select location to see prices
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span class="sub-btn-text">Select location to see prices</span>
                 </a>
-                <a href="#enquiry-section" class="sub-header-btn sub-header-btn-outline">Make an enquiry</a>
-                <a href="test-drive.html" class="sub-header-btn sub-header-btn-solid">Book test drive</a>
+                <a href="#enquiry-section" class="sub-header-btn sub-header-btn-outline">
+                    <i class="bi bi-chat-dots-fill"></i>
+                    <span class="sub-btn-text">Make an enquiry</span>
+                </a>
+                <a href="test-drive.html" class="sub-header-btn sub-header-btn-solid">
+                    <i class="bi bi-calendar-check-fill"></i>
+                    <span class="sub-btn-text">Book test drive</span>
+                </a>
             </div>
         </div>
     </div>
@@ -74,28 +89,54 @@
 
                 <div class="hero-content">
                     <span class="hero-badge">The Legend Grows</span>
-                    <div class="color-name-display"
-                        style="font-family: var(--font-body); font-style: italic; color: #a1a6ab; margin-bottom: 20px;">
-                        MANUFAKTUR Obsidian Black Metallic</div>
-
                     <h1 class="hero-title">Mercedes-AMG G 63</h1>
+                    <div class="color-name-display"
+                        style="font-family: var(--font-body); font-style: italic; color: #a1a6ab; margin-bottom: 15px;">
+                        MANUFAKTUR Obsidian Black</div>
                     <p class="hero-subtitle">The original off-road icon, combined with high-octane Mercedes-AMG racing
                         performance and absolute hand-crafted luxury.</p>
 
                     <div class="hero-actions">
-                        <a href="test-drive.html" class="hero-btn hero-btn-primary">Book a Test Drive</a>
-                        <a href="finance.html" class="hero-btn hero-btn-secondary">Explore Finance</a>
+                        <a href="configure.html" class="hero-btn hero-btn-primary">Configure Your Car</a>
+                        <a href="test-drive.html" class="hero-btn hero-btn-secondary">Book a Test Drive</a>
                     </div>
                 </div>
 
                 <div class="hero-image-container">
                     <div class="hero-image-wrapper">
                         <img src="assets/images/g63-black.avif" class="hero-main-car" alt="Mercedes-AMG G-Class"
-                            id="customizerCarImage">
+                            id="homepageCarImage" draggable="false">
+                        
+                        <!-- 360° Viewer (hidden by default) -->
+                        <div class="homepage-360-container" style="display: none;">
+                            <!-- UNIFIED STAGE CONTAINER -->
+                            <div class="studio-stage-container">
+                                <!-- 3D FLOOR PLATFORM (Anchored Under Wheels) -->
+                                <div class="floor-platform-group">
+                                    <div class="studio-floor-spotlight"></div>
+                                    <div class="car-floor-shadow"></div>
+                                    <div class="floor-360-ring"></div>
+                                    <div class="floor-360-arrow-hint">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </div>
+                                </div>
+
+                                <!-- 72 FRAME CAR ROTATION -->
+                                <div class="car-sequence-wrapper" id="carSequenceContainer">
+                                    <img src="assets/images_frame/1.png" alt="Mercedes-AMG 360 View" class="car-sequence-img" id="carFrameImg" draggable="false">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 360° Toggle Button -->
+                        <button class="btn-360-toggle" id="btn360Toggle" title="View in 360°">
+                            <i class="bi bi-arrow-repeat"></i>
+                            <span>360° View</span>
+                        </button>
                     </div>
                 </div>
 
-                <div class="swatches-list">
+                <div class="swatches-list" id="homepageSwatches">
                 </div>
 
             </div>
@@ -106,30 +147,35 @@
                 <h2 class="recommendations-title">Our Recommendations</h2>
             </div>
 
-            <div class="recommendations-grid">
-                <div class="rec-card">
-                    <div class="rec-card-img-wrapper">
-                        <img src="assets/images/recommendation-g63.webp" alt="Mercedes-AMG G63" class="rec-card-img">
-                    </div>
-                    <div class="rec-card-content">
-                        <h3 class="rec-card-title">Mercedes-AMG G63</h3>
-                        <p class="rec-card-text">The rise of thrill.</p>
-                        <a href="#" class="rec-card-btn">Learn more</a>
+            <div class="recommendations-wrapper row g-4 mx-0">
+                <div class="col-12 col-lg-7">
+                    <div class="rec-card w-100">
+                        <div class="rec-card-img-wrapper">
+                            <img src="assets/images/recommendation-g63.webp" alt="Mercedes-AMG G63"
+                                class="rec-card-img">
+                        </div>
+                        <div class="rec-card-content">
+                            <h3 class="rec-card-title">Mercedes-AMG G63</h3>
+                            <p class="rec-card-text">The rise of thrill.</p>
+                            <a href="configure.html" class="rec-card-btn">Learn more</a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="rec-card">
-                    <div class="rec-card-img-wrapper">
-                        <img src="assets/images/recommendation-s63.webp" alt="Mercedes-AMG S63 E Performance"
-                            class="rec-card-img">
-                    </div>
-                    <div class="rec-card-content">
-                        <h3 class="rec-card-title">Mercedes-AMG Carbon-Fibre Package</h3>
-                        <p class="rec-card-text">Elements in carbon fibre design visually enhance the exterior.</p>
-                        <div class="d-flex align-items-center gap-4">
-                            <a href="test-frive.html" class="rec-card-btn">Find available cars</a>
-                            <a href="#" class="text-white text-decoration-none fw-bold" style="font-size: 14px;">Learn
-                                more</a>
+                <div class="col-12 col-lg-5">
+                    <div class="rec-card w-100">
+                        <div class="rec-card-img-wrapper">
+                            <img src="assets/images/recommendation-s63.webp" alt="Mercedes-AMG S63 E Performance"
+                                class="rec-card-img">
+                        </div>
+                        <div class="rec-card-content">
+                            <h3 class="rec-card-title">Mercedes-AMG Carbon-Fibre Package</h3>
+                            <p class="rec-card-text">Elements in carbon fibre design visually enhance the exterior.</p>
+                            <div class="d-flex align-items-center gap-4">
+                                <a href="test-drive.html" class="rec-card-btn">Find available cars</a>
+                                <!-- <a href="configure.html" class="text-white text-decoration-none fw-bold"
+                                    style="font-size: 14px;">Learn more</a> -->
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -406,6 +452,71 @@
                 src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d14800000!2d78.96288!3d20.593684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smercedes%20benz%20showrooms%20india!5e0!3m2!1sen!2sus!4v1700000000000"
                 width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content bg-dark text-white" style="border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; overflow: hidden; background: rgba(15, 15, 17, 0.95) !important; backdrop-filter: blur(15px);">
+                <div class="modal-header border-0 pb-0" style="padding: 25px 30px 10px 30px;">
+                    <div class="w-100">
+                        <ul class="nav nav-tabs border-bottom-0 auth-tabs justify-content-center" id="authTab" role="tablist" style="gap: 20px;">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active auth-tab-link" id="signin-tab" data-bs-toggle="tab" data-bs-target="#signin-pane" type="button" role="tab" aria-controls="signin-pane" aria-selected="true" style="color: #a1a6ab; background: none; border: none; font-weight: 700; font-size: 16px; padding: 10px 20px; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 1px;">Sign In</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link auth-tab-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup-pane" type="button" role="tab" aria-controls="signup-pane" aria-selected="false" style="color: #a1a6ab; background: none; border: none; font-weight: 700; font-size: 16px; padding: 10px 20px; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 1px;">Sign Up</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 25px; top: 25px;"></button>
+                </div>
+                <div class="modal-body" style="padding: 20px 30px 30px 30px;">
+                    <div class="tab-content" id="authTabContent">
+                        <div class="tab-pane fade show active" id="signin-pane" role="tabpanel" aria-labelledby="signin-tab">
+                            <form class="validated-form" id="signInForm" novalidate>
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="signinEmail" style="font-size: 11px; text-transform: uppercase; color: #a1a6ab; font-weight: 600; letter-spacing: 1px;">Email Address *</label>
+                                    <input type="email" class="form-control bg-black text-white" id="signinEmail" required placeholder="name@domain.com" style="border: 1px solid rgba(255,255,255,0.15); height: 45px; border-radius: 8px;">
+                                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label class="form-label" for="signinPassword" style="font-size: 11px; text-transform: uppercase; color: #a1a6ab; font-weight: 600; letter-spacing: 1px;">Password *</label>
+                                    <input type="password" class="form-control bg-black text-white" id="signinPassword" required placeholder="••••••••" style="border: 1px solid rgba(255,255,255,0.15); height: 45px; border-radius: 8px;">
+                                    <div class="invalid-feedback">Password is required.</div>
+                                </div>
+                                <button type="submit" class="submit-btn w-100" style="background: #d50000; border: none; height: 48px; font-weight: 700; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; font-size: 13px;">Sign In</button>
+                            </form>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="signup-pane" role="tabpanel" aria-labelledby="signup-tab">
+                            <form class="validated-form" id="signUpForm" novalidate>
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="signupName" style="font-size: 11px; text-transform: uppercase; color: #a1a6ab; font-weight: 600; letter-spacing: 1px;">Full Name *</label>
+                                    <input type="text" class="form-control bg-black text-white" id="signupName" required placeholder="John Doe" style="border: 1px solid rgba(255,255,255,0.15); height: 45px; border-radius: 8px;">
+                                    <div class="invalid-feedback">Please enter your full name.</div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="signupPhone" style="font-size: 11px; text-transform: uppercase; color: #a1a6ab; font-weight: 600; letter-spacing: 1px;">Mobile Number *</label>
+                                    <input type="tel" class="form-control bg-black text-white" id="signupPhone" required placeholder="10-digit mobile number" style="border: 1px solid rgba(255,255,255,0.15); height: 45px; border-radius: 8px;">
+                                    <div class="invalid-feedback">Enter a 10-digit number starting with 7, 8, or 9.</div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="signupEmail" style="font-size: 11px; text-transform: uppercase; color: #a1a6ab; font-weight: 600; letter-spacing: 1px;">Email Address *</label>
+                                    <input type="email" class="form-control bg-black text-white" id="signupEmail" required placeholder="name@domain.com" style="border: 1px solid rgba(255,255,255,0.15); height: 45px; border-radius: 8px;">
+                                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label class="form-label" for="signupPassword" style="font-size: 11px; text-transform: uppercase; color: #a1a6ab; font-weight: 600; letter-spacing: 1px;">Password *</label>
+                                    <input type="password" class="form-control bg-black text-white" id="signupPassword" required placeholder="••••••••" style="border: 1px solid rgba(255,255,255,0.15); height: 45px; border-radius: 8px;">
+                                    <div class="invalid-feedback">Password is required.</div>
+                                </div>
+                                <button type="submit" class="submit-btn w-100" style="background: #d50000; border: none; height: 48px; font-weight: 700; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; font-size: 13px;">Sign Up</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
