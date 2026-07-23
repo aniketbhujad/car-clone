@@ -2319,3 +2319,15 @@ input[type=range]::-webkit-slider-thumb:hover {
 .auth-tab-link:hover {
     color: var(--mb-white) !important;
 }
+
+/* Auth Modal Premium Validation Borders */
+#authModal .form-control.is-invalid {
+    border-color: #ff3333 !important;
+    box-shadow: 0 0 0 3px rgba(255, 51, 51, 0.15) !important;
+    background-image: none !important;
+}
+#authModal .form-control.is-valid {
+    border-color: #00e676 !important;
+    box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.15) !important;
+    background-image: none !important;
+}

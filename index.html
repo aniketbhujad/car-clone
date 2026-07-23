@@ -107,11 +107,8 @@
                         <img src="assets/images/g63-black.avif" class="hero-main-car" alt="Mercedes-AMG G-Class"
                             id="homepageCarImage" draggable="false">
                         
-                        <!-- 360° Viewer (hidden by default) -->
                         <div class="homepage-360-container" style="display: none;">
-                            <!-- UNIFIED STAGE CONTAINER -->
                             <div class="studio-stage-container">
-                                <!-- 3D FLOOR PLATFORM (Anchored Under Wheels) -->
                                 <div class="floor-platform-group">
                                     <div class="studio-floor-spotlight"></div>
                                     <div class="car-floor-shadow"></div>
@@ -121,14 +118,12 @@
                                     </div>
                                 </div>
 
-                                <!-- 72 FRAME CAR ROTATION -->
                                 <div class="car-sequence-wrapper" id="carSequenceContainer">
                                     <img src="assets/images_frame/1.png" alt="Mercedes-AMG 360 View" class="car-sequence-img" id="carFrameImg" draggable="false">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 360° Toggle Button -->
                         <button class="btn-360-toggle" id="btn360Toggle" title="View in 360°">
                             <i class="bi bi-arrow-repeat"></i>
                             <span>360° View</span>
@@ -483,7 +478,8 @@
                                 <div class="form-group mb-4">
                                     <label class="form-label" for="signinPassword" style="font-size: 11px; text-transform: uppercase; color: #a1a6ab; font-weight: 600; letter-spacing: 1px;">Password *</label>
                                     <input type="password" class="form-control bg-black text-white" id="signinPassword" required placeholder="••••••••" style="border: 1px solid rgba(255,255,255,0.15); height: 45px; border-radius: 8px;">
-                                    <div class="invalid-feedback">Password is required.</div>
+                                    <small class="form-text text-muted" style="color: #a1a6ab; font-size: 10px; margin-top: 5px; display: block;">Password must be more than 8 characters, contain at least one uppercase letter, one number, and one symbol.</small>
+                                    <div class="invalid-feedback">Password must be more than 8 characters, contain at least one uppercase letter, one number, and one symbol.</div>
                                 </div>
                                 <button type="submit" class="submit-btn w-100" style="background: #d50000; border: none; height: 48px; font-weight: 700; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; font-size: 13px;">Sign In</button>
                             </form>
@@ -509,7 +505,8 @@
                                 <div class="form-group mb-4">
                                     <label class="form-label" for="signupPassword" style="font-size: 11px; text-transform: uppercase; color: #a1a6ab; font-weight: 600; letter-spacing: 1px;">Password *</label>
                                     <input type="password" class="form-control bg-black text-white" id="signupPassword" required placeholder="••••••••" style="border: 1px solid rgba(255,255,255,0.15); height: 45px; border-radius: 8px;">
-                                    <div class="invalid-feedback">Password is required.</div>
+                                    <small class="form-text text-muted" style="color: #a1a6ab; font-size: 10px; margin-top: 5px; display: block;">Password must be more than 8 characters, contain at least one uppercase letter, one number, and one symbol.</small>
+                                    <div class="invalid-feedback">Password must be more than 8 characters, contain at least one uppercase letter, one number, and one symbol.</div>
                                 </div>
                                 <button type="submit" class="submit-btn w-100" style="background: #d50000; border: none; height: 48px; font-weight: 700; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; font-size: 13px;">Sign Up</button>
                             </form>

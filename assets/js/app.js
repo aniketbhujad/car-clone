@@ -345,7 +345,7 @@ $(document).ready(function () {
     if ($('#homepageSwatches').length > 0) {
         renderHomepageSwatches();
 
-        // HOMEPAGE 360 DEGREE DRAG ROTATION LOGIC
+//
         if ($('#btn360Toggle').length > 0) {
             const TOTAL_FRAMES = 72;
             const getFrameUrl = (num) => `assets/images_frame/${num}.png`;
@@ -419,7 +419,7 @@ $(document).ready(function () {
 
                 $('#homepageSwatches').fadeOut(300);
 
-                $('.color-name-display').text("MANUFAKTUR Obsidian Black");
+                $('.color-name-display').text("MANUFAKTUR Obsidian Blue");
 
                 $('#homepageSwatches .swatch').removeClass('active');
                 $('#homepageSwatches .swatch[data-key="black"]').addClass('active');
@@ -438,7 +438,6 @@ $(document).ready(function () {
                     $staticImg.css({ 'opacity': '1', 'pointer-events': 'auto' });
                 });
 
-                // Show side color circles
                 $('#homepageSwatches').fadeIn(300);
             }
 
@@ -451,7 +450,6 @@ $(document).ready(function () {
                 }
             });
 
-            // Mousedown/Touchstart on static image activates 360° mode and triggers drag-rotation
             $staticImg.on('mousedown', function (e) {
                 e.preventDefault();
                 enter360Mode();
@@ -460,7 +458,6 @@ $(document).ready(function () {
                 $dragContainer.css('cursor', 'grabbing');
             });
 
-            // Use native DOM elements for touch events to support options (e.g. passive) without JQuery errors
             const staticImgEl = $staticImg[0];
             const dragContainerEl = $dragContainer[0];
 
@@ -473,7 +470,6 @@ $(document).ready(function () {
                 }, { passive: true });
             }
 
-            // Mouse Drag Listeners
             $dragContainer.on('mousedown', function (e) {
                 if (!is360Preloaded) return;
                 isDragging = true;
@@ -498,7 +494,6 @@ $(document).ready(function () {
                 }
             });
 
-            // Touch Swipe Listeners
             if (dragContainerEl) {
                 dragContainerEl.addEventListener('touchstart', function (e) {
                     if (!is360Preloaded || !e.touches || e.touches.length !== 1) return;
@@ -521,7 +516,6 @@ $(document).ready(function () {
                 isDragging = false;
             });
 
-            // Expose a way to exit when swatches are clicked
             window.homepageExit360 = function () {
                 if (is360Active) {
                     exit360Mode();
@@ -529,6 +523,8 @@ $(document).ready(function () {
             };
         }
     }
+
+//
 
     $('.hero-model-btn').on('click', function () {
         $('.hero-model-btn').removeClass('active btn-light').addClass('btn-outline-light');
@@ -606,6 +602,25 @@ $(document).ready(function () {
             } else {
                 $email.removeClass('is-invalid');
             }
+        }
+
+        const $password = $form.find('input[type="password"]');
+        if ($password.length > 0) {
+            $password.each(function () {
+                const $pwdInput = $(this);
+                const pwdVal = $pwdInput.val() ? $pwdInput.val() : '';
+                const hasUppercase = /[A-Z]/.test(pwdVal);
+                const hasNumber = /[0-9]/.test(pwdVal);
+                const hasSymbol = /[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~`\-]/.test(pwdVal);
+                const hasMoreThan8 = pwdVal.length > 8;
+
+                if (!hasMoreThan8 || !hasUppercase || !hasNumber || !hasSymbol) {
+                    $pwdInput.addClass('is-invalid');
+                    isValid = false;
+                } else {
+                    $pwdInput.removeClass('is-invalid');
+                }
+            });
         }
 
         $form.find('input[type="tel"]').each(function () {
@@ -736,4 +751,43 @@ $(document).ready(function () {
         $loanRange.add($tenureRange).on('input', updateCalculations);
         updateCalculations();
     }
+
+    function validateEmailVal(emailVal) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(emailVal);
+    }
+
+    function validatePasswordVal(pwdVal) {
+        const hasUppercase = /[A-Z]/.test(pwdVal);
+        const hasNumber = /[0-9]/.test(pwdVal);
+        const hasSymbol = /[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~`\-]/.test(pwdVal);
+        const hasMoreThan8 = pwdVal.length > 8;
+        return hasMoreThan8 && hasUppercase && hasNumber && hasSymbol;
+    }
+
+    function updateRealtimeFeedback($el, isValid) {
+        if (isValid) {
+            $el.addClass('is-valid').removeClass('is-invalid');
+        } else {
+            $el.addClass('is-invalid').removeClass('is-valid');
+        }
+    }
+
+    $(document).on('input keyup change focus', '#signinEmail, #signupEmail', function () {
+        const $el = $(this);
+        updateRealtimeFeedback($el, validateEmailVal($el.val()));
+    });
+
+    $(document).on('input keyup change focus', '#signinPassword, #signupPassword', function () {
+        const $el = $(this);
+        updateRealtimeFeedback($el, validatePasswordVal($el.val()));
+    });
+
+    $(document).on('show.bs.modal hidden.bs.modal', '#authModal', function () {
+        const $modal = $(this);
+        $modal.find('form').each(function () {
+            this.reset();
+        });
+        $modal.find('.form-control').removeClass('is-valid is-invalid');
+    });
 });
